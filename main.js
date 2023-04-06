@@ -338,17 +338,18 @@
 
 // Put DOM elements into variables
 const myForm = document.querySelector('#my-form');
-const nameInput = document.querySelector('#name').value;
-const emailInput = document.querySelector('#email').value;
+
 const msg = document.querySelector('.msg');
 const userList = document.querySelector('#users');
 
 // Listen for form submit
 myForm.addEventListener('submit', onSubmit);
 
+//console.log(nameInput)
 function onSubmit(e) {
   e.preventDefault();
-  
+  const nameInput = document.querySelector('#name').value;
+  const emailInput = document.querySelector('#email').value;
   if(nameInput === '' || emailInput === '') {
     // alert('Please enter all fields');
     msg.classList.add('error');
@@ -368,15 +369,16 @@ function onSubmit(e) {
 
     // Append to ul
     userList.appendChild(li);
+    // Clear fields
+  
     //storing name and email in localstorage  
     const obj = {
         userName : nameInput,
-        userEmail : emailInput 
+        userEmail : emailInput
     }
    
-    localStorage.setItem('userDetails',JSON.stringify(obj));
+    localStorage.setItem(emailInput,JSON.stringify(obj));
     // Clear fields
-    nameInput.value = '';
-    emailInput.value = '';
-  }
+    document.form.reset();
+}
 }
