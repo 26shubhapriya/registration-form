@@ -369,8 +369,12 @@ function onSubmit(e) {
     // Append to ul
     userList.appendChild(li);
     //storing name and email in localstorage  
-    localStorage.setItem('userNameDetails',nameInput.value);
-    localStorage.setItem('userEmailDetails',emailInput.value);
+    const obj = {
+        userName : nameInput.value,
+        userEmail : emailInput.value 
+    }
+   
+    localStorage.setItem('userDetails',JSON.stringify(obj));
     // Clear fields
     nameInput.value = '';
     emailInput.value = '';
