@@ -347,6 +347,9 @@ myForm.addEventListener('submit', onSubmit);
 //delete event
 userList.addEventListener('click',removeItem);
 
+//edit event
+userList.addEventListener('click',editItem);
+
 //console.log(nameInput)
 function onSubmit(e) {
   e.preventDefault();
@@ -378,6 +381,18 @@ function onSubmit(e) {
     //append li to list
     userList.appendChild(li);
 
+     //add edit button
+    //create edit button element
+    var editButton = document.createElement('button');
+    //add classes to delete button
+    editButton.className = 'btn btn-info btn-sm float-right edit';
+    //append text node
+    editButton.appendChild(document.createTextNode('edit'));
+    //append button to li
+    li.appendChild(editButton);
+    //append li to list
+    userList.appendChild(li);
+
     // Add HTML
     // li.innerHTML = `<strong>${nameInput.value}</strong>e: ${emailInput.value}`;
 
@@ -397,7 +412,7 @@ function onSubmit(e) {
 }
 }
 function removeItem(e){
-    const emailInput = document.querySelector('#email').value;
+    
     if(e.target.classList.contains('delete')){
         if(confirm('Are You Sure?')){
             var li = e.target.parentElement;
@@ -408,5 +423,23 @@ function removeItem(e){
             userList.removeChild(li);
             localStorage.removeItem(email)
         }
+    }
+}
+function editItem(e){
+    
+    if(e.target.classList.contains('edit')){
+        const nameInput = document.querySelector('#name');
+        const emailInput = document.querySelector('#email');
+            var li = e.target.parentElement;
+            //splitting the name and email 
+            var itemName = li.firstChild.textContent;
+            var splittingNameandEmail = itemName.split(":");
+            var email = splittingNameandEmail[1];
+            var name = splittingNameandEmail[0];
+            userList.removeChild(li);
+            localStorage.removeItem(email);
+            nameInput.value = name;
+            emailInput.value = email;
+        
     }
 }
