@@ -338,12 +338,14 @@
 
 // Put DOM elements into variables
 const myForm = document.querySelector('#my-form');
-
 const msg = document.querySelector('.msg');
 const userList = document.querySelector('#users');
 
 // Listen for form submit
 myForm.addEventListener('submit', onSubmit);
+
+//delete event
+userList.addEventListener('click',removeItem);
 
 //console.log(nameInput)
 function onSubmit(e) {
@@ -362,7 +364,19 @@ function onSubmit(e) {
     const li = document.createElement('li');
 
     // Add text node with input values
-    li.appendChild(document.createTextNode(`${nameInput}: ${emailInput}`));
+    li.appendChild(document.createTextNode(`${nameInput}:${emailInput}`));
+
+    //add delete button
+    //create del button element
+    var deleteButton = document.createElement('button');
+    //add classes to delete button
+    deleteButton.className = 'btn btn-danger btn-sm float-right delete';
+    //append text node
+    deleteButton.appendChild(document.createTextNode('X'));
+    //append button to li
+    li.appendChild(deleteButton);
+    //append li to list
+    userList.appendChild(li);
 
     // Add HTML
     // li.innerHTML = `<strong>${nameInput.value}</strong>e: ${emailInput.value}`;
@@ -381,4 +395,18 @@ function onSubmit(e) {
     // Clear fields
     document.form.reset();
 }
+}
+function removeItem(e){
+    const emailInput = document.querySelector('#email').value;
+    if(e.target.classList.contains('delete')){
+        if(confirm('Are You Sure?')){
+            var li = e.target.parentElement;
+            //splitting the name and email 
+            var itemName = li.firstChild.textContent;
+            var splittingNameandEmail = itemName.split(":");
+            var email = splittingNameandEmail[1];
+            userList.removeChild(li);
+            localStorage.removeItem(email)
+        }
+    }
 }
