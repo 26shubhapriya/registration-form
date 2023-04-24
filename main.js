@@ -355,50 +355,6 @@ function onSubmit(e) {
   e.preventDefault();
   const nameInput = document.querySelector('#name').value;
   const emailInput = document.querySelector('#email').value;
-  if(nameInput === '' || emailInput === '') {
-    // alert('Please enter all fields');
-    msg.classList.add('error');
-    msg.innerHTML = 'Please enter all fields';
-
-    // Remove error after 3 seconds
-    setTimeout(() => msg.remove(), 3000);
-  } else {
-    // Create new list item with user
-    const li = document.createElement('li');
-
-    // Add text node with input values
-    li.appendChild(document.createTextNode(`${nameInput}:${emailInput}`));
-
-    //add delete button
-    //create del button element
-    var deleteButton = document.createElement('button');
-    //add classes to delete button
-    deleteButton.className = 'btn btn-danger btn-sm float-right delete';
-    //append text node
-    deleteButton.appendChild(document.createTextNode('X'));
-    //append button to li
-    li.appendChild(deleteButton);
-    //append li to list
-    userList.appendChild(li);
-
-     //add edit button
-    //create edit button element
-    var editButton = document.createElement('button');
-    //add classes to delete button
-    editButton.className = 'btn btn-info btn-sm float-right edit';
-    //append text node
-    editButton.appendChild(document.createTextNode('edit'));
-    //append button to li
-    li.appendChild(editButton);
-    //append li to list
-    userList.appendChild(li);
-
-    // Add HTML
-    // li.innerHTML = `<strong>${nameInput.value}</strong>e: ${emailInput.value}`;
-
-    // Append to ul
-    userList.appendChild(li);
-    // Clear fields
   
     //storing name and email in localstorage  
     const obj = {
@@ -406,18 +362,76 @@ function onSubmit(e) {
         userEmail : emailInput
     }
    
-    localStorage.setItem(emailInput,JSON.stringify(obj));
+    //localStorage.setItem(emailInput,JSON.stringify(obj));
     // Clear fields
-    document.form.reset();
+    axios.post('https://crudcrud.com/api/13865694742049ffa2cdae710b3e23c6/RegistrationData',obj)
+        .then((response)=>{
+            showUserOnScreen(response.data);
+        })
+        .catch((err)=>{
+            console.log(err)
+        })
+        //getData();
+   // document.form.reset();
 }
+
+// function getData(){
+//     axios
+//     .get('https://crudcrud.com/api/13865694742049ffa2cdae710b3e23c6/RegistrationData')
+//     .then((response)=>{
+//         showUserOnScreen(response.data);
+//     })
+//     .catch(err =>console.log(err));
+// }
+function showUserOnScreen(obj){
+    // const nameInput = document.querySelector('#name').value;
+    // const emailInput = document.querySelector('#email').value;
+     // Create new list item with user
+     const li = document.createElement('li');
+     
+     // Add text node with input values
+    li.appendChild(document.createTextNode(`${obj.userName}:${obj.userEmail}`));
+    
+     //add delete button
+     //create del button element
+     var deleteButton = document.createElement('button');
+     //add classes to delete button
+     deleteButton.className = 'btn btn-danger btn-sm float-right delete';
+     //append text node
+     deleteButton.appendChild(document.createTextNode('X'));
+     //append button to li
+     li.appendChild(deleteButton);
+     //append li to list
+     userList.appendChild(li);
+ 
+      //add edit button
+     //create edit button element
+     var editButton = document.createElement('button');
+     //add classes to delete button
+     editButton.className = 'btn btn-info btn-sm float-right edit';
+     //append text node
+     editButton.appendChild(document.createTextNode('edit'));
+     //append button to li
+     li.appendChild(editButton);
+     //append li to list
+     userList.appendChild(li);
+ 
+     // Add HTML
+     // li.innerHTML = `<strong>${nameInput.value}</strong>e: ${emailInput.value}`;
+ 
+     // Append to ul
+     userList.appendChild(li);
+     // Clear fields
 }
 function removeItem(e){
     
     if(e.target.classList.contains('delete')){
         if(confirm('Are You Sure?')){
             var li = e.target.parentElement;
+            //console.log(li)
             //splitting the name and email 
             var itemName = li.firstChild.textContent;
+            //console.log(itemName)
             var splittingNameandEmail = itemName.split(":");
             var email = splittingNameandEmail[1];
             userList.removeChild(li);
