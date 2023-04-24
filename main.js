@@ -371,18 +371,24 @@ function onSubmit(e) {
         .catch((err)=>{
             console.log(err)
         })
-        //getData();
+        
    // document.form.reset();
 }
 
-// function getData(){
-//     axios
-//     .get('https://crudcrud.com/api/13865694742049ffa2cdae710b3e23c6/RegistrationData')
-//     .then((response)=>{
-//         showUserOnScreen(response.data);
-//     })
-//     .catch(err =>console.log(err));
-// }
+
+
+window.addEventListener("DOMContentLoaded",()=>{
+    axios.get("https://crudcrud.com/api/13865694742049ffa2cdae710b3e23c6/RegistrationData")
+        .then((response)=>{
+            console.log(response)
+            for(var i=0; i<response.data.length; i++){
+                showUserOnScreen(response.data[i])
+            }
+        })
+        .catch((error)=>{
+            console.log(error)
+        })
+})
 function showUserOnScreen(obj){
     // const nameInput = document.querySelector('#name').value;
     // const emailInput = document.querySelector('#email').value;
